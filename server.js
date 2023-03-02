@@ -31,3 +31,10 @@ function register(event){
         alert("Registration Done.");
     }
 }
+
+
+Name 
+number 
+email 
+password
+confirm password
