@@ -42,44 +42,28 @@ function register(event) {
 
 
 
-function gettingDataFromHtmlToJsForEmail() {
-    var userEmail = document.getElementById("email").value;
-    return userEmail
-}
-function gettingDataFromHtmlToJsForPassword() {
-    var userPassword = document.getElementById("password").value;
-    return userPassword
-}
-function datafromLS() {
-    var datafromLS = JSON.parse(localStorage.getItem("userData"));
-    return datafromLS;
-}
 
-function compare(datafromLS, userEmail, userPassword) {
+
+function login(event) {
+    event.preventDefault();
+    var userEmail = document.getElementById("email").value;
+    var userPassword = document.getElementById("password").value;
+    
+    var datafromLS = JSON.parse(localStorage.getItem("userData"));
+
     var rocky = false;
     for (var i = 0; i < datafromLS.length; i++) {
         if (datafromLS[i].email === userEmail && datafromLS[i].password === userPassword) {
             rocky = true;
         }
     }
-    return rocky;
-}
-
-
-function login(event) {
-    event.preventDefault();
-    console.log(gettingDataFromHtmlToJsForEmail());
-    console.log(gettingDataFromHtmlToJsForPassword());
-
-    console.log(datafromLS())
-
-    compare(datafromLS(),)
-
-
     // console.log(flag,"flag herer")
     if (rocky === true) {
         document.getElementById("email").value = '';
         document.getElementById("password").value = '';
+        var user = {};
+        user["current-user-email"] = userEmail ;
+        localStorage.setItem("current-user", JSON.stringify(user))
         window.location.href = '/home.html';
         alert("Logged in successfull.")
     } else {

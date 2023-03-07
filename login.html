@@ -21,5 +21,14 @@
     </button>
 
     <script src="/server.js"></script>
+    <script>
+        window.onload = function (){
+            var dataFromLS = JSON.parse(localStorage.getItem('current-user'));
+            if(dataFromLS) {
+                window.location.href = '/home.html'
+                alert("Already logged!")
+            }
+        }
+    </script>
 </body>
 </html>
