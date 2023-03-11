@@ -10,6 +10,10 @@
 
 <body>
     <h1>Cart</h1>
+    <div id="cartProducts">
+
+    </div>
+    <button onclick="buyProducts()">Click here to Buy these products.</button>
 
     <script>
         window.onload = function () {
@@ -17,8 +21,51 @@
             if (!dataFromLS) {
                 window.location.href = '/login.html';
                 alert("Cant access cart without login, please login first...")
+            } else {
+                var dataFromLS = JSON.parse(localStorage.getItem("userData"));
+                var currentUser = JSON.parse(localStorage.getItem("current-user"));
+                var divFromHtml = document.getElementById("cartProducts");
+                var cartProducts;
+                var flag = false;
+                for (var i = 0; i < dataFromLS.length; i++) {
+                    if (dataFromLS[i].email === currentUser["current-user-email"] && dataFromLS[i].cartProducts) {
+                        cartProducts = dataFromLS[i].cartProducts;
+                        flag = true;
+                    }
+                }
+                if (flag === false) {
+                    alert("No product added to cart, Go and buy some prodcuts!!")
+                } else {
+                    console.log(cartProducts, 'cartProducts')
+                    var productsWithHTMl = [];
+                    for (var i = 0; i < cartProducts.length; i++) {
+                        productsWithHTMl += `<div><img src='${cartProducts[i].image}' /><br/><h1>${cartProducts[i].name}</h1><br/><p>${cartProducts[i].prcie}</p></div>`;
+                    }
+                    divFromHtml.innerHTML = productsWithHTMl;
+                }
             }
+        };
+
+        function buyProducts() {
+            // alert('Working!')
+            var dataFromLS = JSON.parse(localStorage.getItem("userData"));
+            var currentUser = JSON.parse(localStorage.getItem("current-user"));
+            var updatedUser = [];
+            for (var i = 0; i < dataFromLS.length; i++) {
+                if (dataFromLS[i].email === currentUser["current-user-email"] && dataFromLS[i].cartProducts) {
+                    dataFromLS[i].cartProducts = [];
+                    updatedUser.push(dataFromLS[i])
+                } else {
+                    updatedUser.push(dataFromLS[i])
+                }
+            }
+            // console.log(updatedUser,"updatedUser")
+            localStorage.setItem("userData", JSON.stringify(updatedUser));
+            window.location.href = '/home.html';
+            alert("Products will deliver soon.")
+
         }
+
 
     </script>
 </body>
